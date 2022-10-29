@@ -1,5 +1,28 @@
-[bash]
-----
-make say-hello
-Hello, World!
-----
+# имя, которое будет показано в интерфейсе github.com
+name: github-actions
+
+# список событий, при которых будут запускаться задания
+on:
+  # на push и pull_request, только для ветки master
+  push:
+    branches: [main]
+
+  # позволяет запускать workflow вручную с вкладки actions в интерфейсе github.com
+  workflow_dispatch:
+
+# одно или несколько заданий, которые могут быть запущены параллельно или последовательно
+jobs:
+  # у этого workflow всего одна задача single
+  single:
+    # задание будет выполняться на последней версии Ubuntu
+    runs-on: ubuntu-latest
+
+    # шаги задания запускаются последовательно
+    steps:
+      # при выполнении задания будет доступен наш репозиторий
+      - uses: actions/checkout@v3
+
+      # запуск одной shell-команды
+      - name: say hello!
+        run: make say-hello
+
